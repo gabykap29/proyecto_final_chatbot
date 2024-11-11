@@ -6,5 +6,5 @@ router = APIRouter()
 
 @router.post("/ask/")
 async def ask_question(question: str):
-    return StreamingResponse(answer_question_streaming(question, chunks),media_type="text/plain")
+    return StreamingResponse(await answer_question_streaming(question),media_type="text/plain")
 
