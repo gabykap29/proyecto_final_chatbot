@@ -6,7 +6,7 @@ from langchain.prompts import PromptTemplate
 import os
 
 class QuestionAnsweringService:
-    def __init__(self, model_name="llama3.2:1b", pdf_path="../pdf/overlord2.pdf"):
+    def __init__(self, model_name="llama3.2:1b", base_url="https://3a09-138-121-113-25.ngrok-free.app", pdf_path="../pdf/overlord2.pdf"):
         self.llm = ChatOllama(model=model_name,streaming=True)
         # Obtén la ruta del directorio actual
         # Obtén la ruta del directorio actual
