@@ -114,10 +114,10 @@ typing-inspect==0.9.0
 typing_extensions==4.12.2
 urllib3==2.2.3
 uvicorn==0.32.0
-uvloop==0.21.0
 watchfiles==0.24.0
 websocket-client==1.8.0
 websockets==14.0
 wrapt==1.16.0
 yarl==1.17.1
 zipp==3.20.2
+uvloop==0.21.0; sys_platform != 'win32'
