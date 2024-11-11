@@ -10,7 +10,8 @@ Este es el proyecto final para el desarrollo de un chatbot. El objetivo de este 
 
 ## Requisitos
 
-Para instalar y ejecutar este proyecto, necesitarás tener Python instalado en tu sistema. Además, todas las dependencias necesarias están listadas en el archivo `requirements.txt`.
+- Para instalar y ejecutar este proyecto, necesitarás tener Python instalado en tu sistema. Además, todas las dependencias necesarias están listadas en el archivo `requirements.txt`.
+- Tener instalado ollama y descargado el modelo llama3.2
 
 ## Instalación
 
@@ -44,6 +45,6 @@ Sigue estos pasos para instalar las dependencias y ejecutar el proyecto:
 
 ## Uso
 
-Una vez que el chatbot esté en funcionamiento, puedes interactuar con él a través de la interfaz de usuario proporcionada o mediante una API (si está disponible).
+Una vez que el chatbot esté en funcionamiento, puedes interactuar con él a través de http://127.0.0.1:8000/docs
 
 
