@@ -18,7 +18,7 @@ Sigue estos pasos para instalar las dependencias y ejecutar el proyecto:
 
 1. Clona este repositorio en tu máquina local:
     ```bash
-    git clone https://github.com/tu_usuario/proyecto_final_chatbot.git
+    git clone https://github.com/gabykap29/proyecto_final_chatbot.git
     ```
 
 2. Navega al directorio del proyecto:
