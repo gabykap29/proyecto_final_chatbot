@@ -12,19 +12,21 @@ function App() {
   };
 
   return (
-    <main className='bg-neutral-900 w-full h-screen flex flex-col'>
-      <h1 className='text-neutral-400 text-2xl font-bold'>ChatBot</h1>
+    <main className='bg-neutral-900 w-full h-screen flex flex-col overflow-hidden'>
+      <h1 className='text-neutral-400 text-2xl font-bold pl-3 pt-3'>ChatBot</h1>
 
-      <Chat />
+      <div className='py-5 overflow-y-auto'>
+        <Chat />
+      </div>
 
 
-      <form className='flex flex-col items-center '>
+      <form className='flex flex-col items-center mt-auto py-3'>
 
-        <div className="flex space-x-4 items-center justify-between bg-zinc-800 rounded-e-3xl rounded-s-3xl w-[50%] px-5 py-3">
+        <div className="flex space-x-4 items-center justify-between bg-zinc-800 rounded-e-3xl rounded-s-3xl w-[50%] pl-3 pr-5 py-2">
           <input
             type="file"
             ref={fileInputRef}
-            style={{ display: 'none' }} 
+            style={{ display: 'none' }}
           />
 
           <div className="flex items-center space-x-3 w-full">
