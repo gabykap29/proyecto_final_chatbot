@@ -30,7 +30,7 @@ function App() {
           />
 
           <div className="flex items-center space-x-3 w-full">
-            <i onClick={handleIconClick} className="cursor-pointer text-2xl text-neutral-200">
+            <i title='Sube un PDF para hablar con el chat' onClick={handleIconClick} className="cursor-pointer text-2xl text-neutral-200">
               <FaRegFilePdf />
             </i>
             <textarea
@@ -40,7 +40,7 @@ function App() {
             />
           </div>
 
-          <button type="submit" className="rounded-full bg-neutral-200 p-3 hover:bg-neutral-500 transition-all duration-300">
+          <button title='Enviar pregunta' type="submit" className="rounded-full bg-neutral-200 p-3 hover:bg-neutral-500 transition-all duration-300">
             <FaArrowUp />
           </button>
         </div>
