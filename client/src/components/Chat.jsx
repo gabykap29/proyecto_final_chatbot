@@ -1,57 +1,51 @@
 import { useState } from 'react';
+import { Form } from "./Form";
+import { useFetchAI } from "../hooks/useAI"
 import { RiRobot2Line } from "react-icons/ri";
 
 export const Chat = () => {
-  const [messages, setMessages] = useState([{
-    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia voluptatem ex ullam velit veniam totam! Dignissimos at eligendi velit, commodi itaque officiis dolor modi reiciendis pariatur repudiandae aliquid. Est deleniti magni molestias ut corporis dolorem ducimus tempore sapiente, velit accusantium praesentium soluta dignissimos modi, ipsam quia? Perspiciatis molestiae reiciendis expedita unde possimus. Suscipit assumenda aliquid ut quis ea, fugit nisi alias voluptatem ipsum amet, eum possimus nesciunt, in a odit accusantium placeat? Ipsa cupiditate vero aliquid hic porro non eveniet corporis dolor, sunt ad, modi alias fugit et minus magni!",
-    sender: "user"
-  },
-  {
-    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia voluptatem ex ullam velit veniam totam! Dignissimos at eligendi velit, commodi itaque officiis dolor modi reiciendis pariatur repudiandae aliquid. Est deleniti magni molestias ut corporis dolorem ducimus tempore sapiente, velit accusantium praesentium soluta dignissimos modi, ipsam quia? Perspiciatis molestiae reiciendis expedita unde possimus. Suscipit assumenda aliquid ut quis ea, fugit nisi alias voluptatem ipsum amet, eum possimus nesciunt, in a odit accusantium placeat? Ipsa cupiditate vero aliquid hic porro non eveniet corporis dolor, sunt ad, modi alias fugit et minus magni!",
-    sender: "bot"
-  },
-  {
-    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia voluptatem ex ullam velit veniam totam! Dignissimos at eligendi velit, commodi itaque officiis dolor modi reiciendis pariatur repudiandae aliquid. Est deleniti magni molestias ut corporis dolorem ducimus tempore sapiente, velit accusantium praesentium soluta dignissimos modi, ipsam quia? Perspiciatis molestiae reiciendis expedita unde possimus. Suscipit assumenda aliquid ut quis ea, fugit nisi alias voluptatem ipsum amet, eum possimus nesciunt, in a odit accusantium placeat? Ipsa cupiditate vero aliquid hic porro non eveniet corporis dolor, sunt ad, modi alias fugit et minus magni!",
-    sender: "user"
-  },
-  {
-    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia voluptatem ex ullam velit veniam totam! Dignissimos at eligendi velit, commodi itaque officiis dolor modi reiciendis pariatur repudiandae aliquid. Est deleniti magni molestias ut corporis dolorem ducimus tempore sapiente, velit accusantium praesentium soluta dignissimos modi, ipsam quia? Perspiciatis molestiae reiciendis expedita unde possimus. Suscipit assumenda aliquid ut quis ea, fugit nisi alias voluptatem ipsum amet, eum possimus nesciunt, in a odit accusantium placeat? Ipsa cupiditate vero aliquid hic porro non eveniet corporis dolor, sunt ad, modi alias fugit et minus magni!",
-    sender: "bot"
-  },
-
-
-]);
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
 
-  const handleSend = () => {
+  const { fetchAI, setIaResponse } = useFetchAI()
+
+  const handleSend = async (e) => {
+    e.preventDefault();
+
     if (input.trim()) {
-      // Agrega el nuevo mensaje al array de mensajes
+      setIaResponse("");
+      setInput('');
       setMessages([...messages, { text: input, sender: 'user' }]);
-      setInput(''); // Limpia el campo de entrada
+      try {
+        await fetchAI(input, setMessages);
+
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     }
   };
 
   return (
-    <>
-      <ul className="px-52">
-
+    <div className='flex flex-col h-full'>
+      <ul className="flex-1 overflow-y-auto px-52 py-4">
         {messages.map((msg, index) => (
           <li key={index} className={`mb-10 text-neutral-200 ${msg.sender === 'user' ? 'text-right' : 'text-left'}`}>
-
             <div className={`${msg.sender !== 'user' && "flex space-x-2"}`}>
-              {
-                msg.sender !== 'user' &&
-                <i className="rounded-full bg-neutral-800 p-3 border-neutral-500 border-2 h-fit"><RiRobot2Line /></i>
-              }
-              <p className={`inline-block p-2 rounded-s-3xl rounded-ee-3xl rounded-se-md  ${msg.sender === 'user' && 'bg-neutral-800 text-neutral-200'} shadow`}>
+              {msg.sender !== 'user' && (
+                <i className="rounded-full bg-neutral-800 p-3 border-neutral-500 border-2 h-fit">
+                  <RiRobot2Line />
+                </i>
+              )}
+              <p className={`inline-block p-2 rounded-s-3xl rounded-ee-3xl rounded-se-md ${msg.sender === 'user' && 'bg-neutral-800 text-neutral-200'} shadow`}>
                 {msg.text}
               </p>
             </div>
-
           </li>
         ))}
-
       </ul>
-    </>
+      <div className="p-4 bg-neutral-900 mt-auto w-full">
+        <Form setInput={setInput} input={input} handleSend={handleSend} />
+      </div>
+    </div>
   );
 };
