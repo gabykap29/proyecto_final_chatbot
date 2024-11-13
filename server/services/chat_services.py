@@ -6,27 +6,10 @@ from langchain.prompts import PromptTemplate
 import os
 
 class QuestionAnsweringService:
-    def __init__(self, model_name="llama3.2:1b", pdf_path="../pdf/overlord2.pdf"):
-        self.llm = ChatOllama(model=model_name,streaming=True)
-        # Obtén la ruta del directorio actual
-        # Obtén la ruta del directorio actual
-        current_dir = os.path.dirname(os.path.realpath(__file__))
+    def __init__(self, model_name="llama3.2:1b"):
+        self.llm = ChatOllama(model=model_name, streaming=True)
+        self.chunks = []  # Inicializar una lista vacía para los chunks
 
-        # Construye la ruta absoluta al archivo PDF
-        file_path = os.path.join(current_dir, "../pdf/bicho.pdf")
-        file_path = os.path.abspath(file_path)
-        print(file_path)
-        self.file_path = file_path
-        print(f"Archivo PDF cargado desde: {self.file_path}")
-        
-        # Cargar PDF y dividir en chunks
-        loader = PyMuPDFLoader(self.file_path)
-        data_pdf = loader.load()
-        
-        # Dividir el PDF en chunks
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=500)
-        self.chunks = text_splitter.split_documents(data_pdf)
-        
         # Modelo de embeddings
         self.embed_model = FastEmbedEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
         
@@ -43,6 +26,19 @@ class QuestionAnsweringService:
             template=custom_prompt_template,
             input_variables=['context', 'question']
         )
+
+    def process_pdf(self, file_path: str):
+        # Verificar que el archivo exista
+        if not os.path.exists(file_path):
+            raise FileNotFoundError(f"El archivo {file_path} no existe.")
+        
+        # Usar PyMuPDFLoader para cargar el PDF desde el archivo
+        loader = PyMuPDFLoader(file_path)
+        data_pdf = loader.load()
+        
+        # Dividir el PDF en chunks
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=500)
+        self.chunks = text_splitter.split_documents(data_pdf)
 
     def stream_answer(self, question: str):
         context = "\n".join([chunk.page_content for chunk in self.chunks])
