@@ -7,7 +7,7 @@ import os
 
 class QuestionAnsweringService:
     def __init__(self, model_name="llama3.2:1b"):
-        self.llm = ChatOllama(model=model_name, base_url="https://4dca-138-121-113-25.ngrok-free.app",streaming=True)
+        self.llm = ChatOllama(model=model_name, base_url="https://b572-138-121-113-25.ngrok-free.app",streaming=True)
         self.chunks = []  # Inicializar una lista vacía para los chunks
 
         # Modelo de embeddings

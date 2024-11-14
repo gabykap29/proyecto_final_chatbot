@@ -1,4 +1,4 @@
-export const useApiFetch = async (route, method, payload, param) => {
+export const useApiFetch = async (route, method, payload, file) => {
 
     const apiRoute = import.meta.env.VITE_API_SERVER
 
@@ -8,14 +8,10 @@ export const useApiFetch = async (route, method, payload, param) => {
         "Content-Type": "application/json",
     };
 
-    const paramUrl = param && url + "/" + param
-
-    console.log(paramUrl);
-
     if (method === "GET") {
         try {
 
-            const response = await fetch(param ? paramUrl : url, {
+            const response = await fetch(url, {
                 method: method,
             });
 
@@ -26,23 +22,7 @@ export const useApiFetch = async (route, method, payload, param) => {
         } catch (error) {
             console.error("Error al realizar la peticion:", error);
         }
-    }
-    else if (method === "DELETE" || method === "PUT") {
-        try {
-
-            const response = await fetch(param ? paramUrl : url, {
-                method: method,
-            })
-
-            const data = await response.json()
-
-            return data
-
-        } catch (error) {
-            console.error("Error al realizar la petición", error);
-        }
-
-    } else if (method === "POST") {
+    } else if (method === "POST" && !file) {
         try {
 
             const response = await fetch(url, {
@@ -58,5 +38,20 @@ export const useApiFetch = async (route, method, payload, param) => {
             console.error("Error al realizar la petición", error);
         }
 
+    } else {
+        try {
+
+            const response = await fetch(url, {
+                method: method,
+                body: payload,
+            })
+
+            const data = await response.json()
+
+            return data
+
+        } catch (error) {
+            console.error("Error al realizar la petición", error);
+        }
     }
 }

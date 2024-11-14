@@ -1,9 +1,12 @@
-import { useRef } from "react";
+import { useRef, useContext } from "react";
 import { FaRegFilePdf } from "react-icons/fa6";
 import { useApiFetch } from "../hooks/useFetch";
 import { useToast } from "../hooks/useToast";
+import { PageContext } from "../context/AppContext";
 
 export const LoadPDF = () => {
+
+    const { refresh } = useContext(PageContext)
 
     const fileInputRef = useRef(null);
 
@@ -16,13 +19,16 @@ export const LoadPDF = () => {
         if (!file) return;
 
         const formData = new FormData();
-        formData.append("pdf", file);
+        formData.append("file", file);
 
         try {
-            const response = await useApiFetch("", "POST", formData)
+            const response = await useApiFetch("/upload-pdf", "POST", formData, true)
 
-            if (response.ok) {
-                useToast(true, "PDF cargado exitosamente")
+            console.log(response);
+
+            if (response.saved_path) {
+                refresh()
+                useToast(true, `PDF: ${response.filename} cargado exitosamente`)
             } else {
                 useToast(false, "Error cargado el PDF")
             }

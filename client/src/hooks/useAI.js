@@ -3,13 +3,14 @@ import { useState } from "react";
 const apiRoute = import.meta.env.VITE_API_SERVER
 
 export function useFetchAI() {
-    const [iaResponse, setIaResponse] = useState("");
+    const [loading, setLoading] = useState(false);
 
     async function fetchAI(consulta, setMessages) {
 
         console.log(consulta);
 
         try {
+            setLoading(true)
             const ollama = await fetch(apiRoute + "/ask?question=" + consulta, {
                 method: "POST",
                 headers: {
@@ -59,15 +60,16 @@ export function useFetchAI() {
 
                 chunk = await reader.read();
             }
-
+            setLoading(false)
         } catch (error) {
             setMessages(prevMessages => [
                 ...prevMessages,
-                { text: "Lo sentimos, la IA no está disponible de momento... 😢", sender: 'bot' }
+                { text: "Ocurrio un error al generar la respuesta 😢", sender: 'bot' }
             ]);
+            setLoading(false)
         }
     }
 
 
-    return { iaResponse, fetchAI, setIaResponse };
+    return { loading, fetchAI };
 }

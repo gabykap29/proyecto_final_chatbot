@@ -1,7 +1,7 @@
-import { FaArrowUp } from "react-icons/fa";
+import { FaSquare, FaArrowUp } from "react-icons/fa";
 import { LoadPDF } from "./LoadPDF";
 
-export const Form = ({ setInput, input, handleSend }) => {
+export const Form = ({ setInput, input, handleSend, loading }) => {
 
     const handleInputChange = (e) => {
         setInput(e.target.value);
@@ -27,12 +27,12 @@ export const Form = ({ setInput, input, handleSend }) => {
                     />
                 </div>
 
-                <button title='Enviar pregunta' onClick={(e) => handleSend(e)} type="submit" className="rounded-full bg-neutral-200 p-3 hover:bg-neutral-500 transition-all duration-300">
-                    <FaArrowUp />
+                <button disabled={loading} title={loading ? "Espere..." : "Enviar pregunta"} onClick={(e) => handleSend(e)} type="submit" className={`${!loading ? "bg-neutral-200" : "bg-neutral-500"} rounded-full p-3 hover:bg-neutral-500 transition-all duration-300`}>
+                    {loading ? <FaSquare /> : <FaArrowUp />}
                 </button>
             </div>
 
             <span className='text-neutral-500 animate-pulse'>El ChatBot puede cometer errores. Comprueba la información importante.</span>
-        </form>
+        </form >
     )
 }

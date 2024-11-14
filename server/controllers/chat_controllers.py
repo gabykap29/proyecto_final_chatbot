@@ -1,7 +1,6 @@
-# controllers/ask_controller.py
 from fastapi import APIRouter
 from fastapi.responses import StreamingResponse, JSONResponse
-from services.chat_services import QuestionAnsweringService  # Asegúrate de importar la clase correcta
+from services.chat_services import QuestionAnsweringService 
 from fastapi import UploadFile, File, HTTPException
 from services.pdf_services import save_pdf, list_pdfs
 import os

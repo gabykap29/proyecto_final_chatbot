@@ -6,8 +6,14 @@ export const PageContextProvider = ({ children }) => {
 
     const [pdf, setPdf] = useState("")
 
+    const [refetchState, setRefetchState] = useState(false)
+
     const updatePDF = (name) => {
         setPdf(name)
+    }
+
+    const refresh = () => {
+        setRefetchState(!refetchState)
     }
 
     useEffect(() => {
@@ -18,7 +24,7 @@ export const PageContextProvider = ({ children }) => {
     }, []);
 
     return (
-        <PageContext.Provider value={{ pdf, updatePDF }}>
+        <PageContext.Provider value={{ pdf, updatePDF, refresh, refetchState }}>
             {children}
         </PageContext.Provider>
     );
